@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-float computeAverage(float prelim, float midterm, float finals) {
-    return (prelim + midterm + finals) / 3;
+float computeAverage(float scores[]) {
+    return (scores[0] + scores[1] + scores[2]) / 3;
 }
 
 char getLetterGrade(float average) {
@@ -17,26 +17,18 @@ char getLetterGrade(float average) {
         return 'F';
 }
 
-void displayResult(char name[], int id,
-                   float average, char letterGrade) {
-
-    printf("\n=== GRADE REPORT ===\n");
-    printf("Name: %s", name);
-    printf("Student ID: %d\n", id);
-    printf("Average: %.2f\n", average);
-    printf("Letter Grade: %c\n", letterGrade);
-
-    if (average >= 75)
-        printf("Remarks: PASSED\n");
-    else
-        printf("Remarks: FAILED\n");
-}
-
 int main() {
     char studentName[50];
     int studentID;
-    float prelim, midterm, finals, average;
+    float scores[3];
+    float average;
     char letterGrade;
+
+    const char *examNames[3] = {
+        "Prelim",
+        "Midterm",
+        "Finals"
+    };
 
     printf("Enter student name: ");
     fgets(studentName, sizeof(studentName), stdin);
@@ -44,20 +36,26 @@ int main() {
     printf("Enter student ID: ");
     scanf("%d", &studentID);
 
-    printf("Enter Prelim score: ");
-    scanf("%f", &prelim);
+    for (int i = 0; i < 3; i++) {
 
-    printf("Enter Midterm score: ");
-    scanf("%f", &midterm);
+        int valid = 0;
 
-    printf("Enter Finals score: ");
-    scanf("%f", &finals);
+        while (!valid) {
+            printf("Enter %s score: ", examNames[i]);
+            scanf("%f", &scores[i]);
 
-    average = computeAverage(prelim, midterm, finals);
+            if (scores[i] >= 0 && scores[i] <= 100)
+                valid = 1;
+            else
+                printf("Invalid score. Try again.\n");
+        }
+    }
+
+    average = computeAverage(scores);
     letterGrade = getLetterGrade(average);
 
-    displayResult(studentName, studentID,
-                  average, letterGrade);
+    printf("\nAverage: %.2f\n", average);
+    printf("Letter Grade: %c\n", letterGrade);
 
     return 0;
 }
