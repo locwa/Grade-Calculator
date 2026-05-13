@@ -18,44 +18,74 @@ char getLetterGrade(float average) {
 }
 
 int main() {
-    char studentName[50];
-    int studentID;
-    float scores[3];
-    float average;
-    char letterGrade;
 
-    const char *examNames[3] = {
-        "Prelim",
-        "Midterm",
-        "Finals"
-    };
+    char continueChoice;
+    int studentCount = 0;
 
-    printf("Enter student name: ");
-    fgets(studentName, sizeof(studentName), stdin);
+    do {
 
-    printf("Enter student ID: ");
-    scanf("%d", &studentID);
+        char studentName[50];
+        int studentID;
+        float scores[3];
+        float average;
+        char letterGrade;
 
-    for (int i = 0; i < 3; i++) {
+        const char *examNames[3] = {
+            "Prelim",
+            "Midterm",
+            "Finals"
+        };
 
-        int valid = 0;
+        studentCount++;
 
-        while (!valid) {
-            printf("Enter %s score: ", examNames[i]);
-            scanf("%f", &scores[i]);
+        printf("\n=== Student #%d ===\n", studentCount);
 
-            if (scores[i] >= 0 && scores[i] <= 100)
-                valid = 1;
-            else
-                printf("Invalid score. Try again.\n");
+        getchar();
+
+        printf("Enter student name: ");
+        fgets(studentName, sizeof(studentName), stdin);
+
+        printf("Enter student ID: ");
+        scanf("%d", &studentID);
+
+        for (int i = 0; i < 3; i++) {
+
+            int valid = 0;
+
+            while (!valid) {
+
+                printf("Enter %s score: ",
+                       examNames[i]);
+
+                scanf("%f", &scores[i]);
+
+                if (scores[i] >= 0 &&
+                    scores[i] <= 100)
+                    valid = 1;
+                else
+                    printf("Invalid score.\n");
+            }
         }
-    }
 
-    average = computeAverage(scores);
-    letterGrade = getLetterGrade(average);
+        average = computeAverage(scores);
+        letterGrade = getLetterGrade(average);
 
-    printf("\nAverage: %.2f\n", average);
-    printf("Letter Grade: %c\n", letterGrade);
+        printf("\nAverage: %.2f\n", average);
+        printf("Letter Grade: %c\n", letterGrade);
+
+        if (average >= 75)
+            printf("Remarks: PASSED\n");
+        else
+            printf("Remarks: FAILED\n");
+
+        printf("\nProcess another student? (y/n): ");
+        scanf(" %c", &continueChoice);
+
+    } while (continueChoice == 'y' ||
+             continueChoice == 'Y');
+
+    printf("\nTotal Students Processed: %d\n",
+           studentCount);
 
     return 0;
 }
