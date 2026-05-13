@@ -1,9 +1,23 @@
 #include <stdio.h>
 
+char getLetterGrade(float average) {
+    if (average >= 90)
+        return 'A';
+    else if (average >= 80)
+        return 'B';
+    else if (average >= 70)
+        return 'C';
+    else if (average >= 60)
+        return 'D';
+    else
+        return 'F';
+}
+
 int main() {
     char studentName[50];
     int studentID;
     float prelim, midterm, finals, average;
+    char letterGrade;
 
     printf("=== STUDENT GRADE CALCULATOR ===\n");
 
@@ -23,11 +37,13 @@ int main() {
     scanf("%f", &finals);
 
     average = (prelim + midterm + finals) / 3;
+    letterGrade = getLetterGrade(average);
 
     printf("\n=== GRADE REPORT ===\n");
     printf("Name: %s", studentName);
     printf("Student ID: %d\n", studentID);
     printf("Average: %.2f\n", average);
+    printf("Letter Grade: %c\n", letterGrade);
 
     if (average >= 75)
         printf("Remarks: PASSED\n");
